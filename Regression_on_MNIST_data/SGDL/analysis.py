@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed 12/31 2023
 
-@author: rfang002
-"""
 import sys
 import os.path
 import shutil
