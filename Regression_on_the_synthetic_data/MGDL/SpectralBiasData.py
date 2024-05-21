@@ -1,18 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 15 22:07:01 2023
-
-@author: rfang002
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Feb  7 20:50:50 2023
-
-@author: rfang002
-"""
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
