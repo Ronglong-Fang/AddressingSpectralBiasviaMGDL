@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed 12/31 2023
-
-@author: rfang002
-"""
 
 import pickle
 import numpy as np
