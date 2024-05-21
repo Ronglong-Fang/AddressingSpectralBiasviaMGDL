@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Feb  8 12:27:17 2023
 
-@author: rfang002
-"""
 import multigrade_dnn_regression as m_dnn
 import numpy as np
 #import matplotlib.pyplot as plt
