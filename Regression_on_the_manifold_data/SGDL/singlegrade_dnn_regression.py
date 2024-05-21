@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Dec 28 23:06:10 2023
-
-@author: rfang002
-"""
-
-
 import numpy as np
 import math
 import copy
