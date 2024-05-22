@@ -1,3 +1,4 @@
+
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,8 +25,6 @@ def results_analysis(fullfilename, figure):
     print(fullfilename)
     print(nn_parameter)
     print(opt_parameter)
-    
-    print(trained_variable["data"]['opt'])
 
 
     num_iter = trained_variable["REC_FRQ_iter"]
@@ -43,12 +42,9 @@ def results_analysis(fullfilename, figure):
         train_rse.append(trained_variable['train_rse'][i][-1])
         validation_rse.append(trained_variable['validation_rse'][i][-1])
         train_time.append(trained_variable['train_time'][i][-1])
-        
-    test_rse = multigrade_dnn_model_predict(nn_parameter, opt_parameter, trained_variable)
-
+    
     print('the train rse for each grade is {}'.format(train_rse))
     print('the validation rse for each grade is {}'.format(validation_rse))
-    print('the test rse for each grade is {}'.format(test_rse))
     print('the train times for each grade is {}'.format(train_time))
     print('the total train times is {}'.format(total_time))
 
@@ -67,46 +63,53 @@ def results_analysis(fullfilename, figure):
         plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
         plt.show()
 
-        plt.plot(num_iter, trained_variable['train_rse'][i], 'b--', label='train rse')
-        plt.plot(num_iter, trained_variable['validation_rse'][i], 'r--', label='validation rse')
-        plt.yscale('log')
-        plt.xlabel('x')
-        plt.ylabel('y')
-        plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
-        plt.title('train and validation rse for grade {}'.format(i+1))   
-        plt.show()
-        
-        print('the train time is {}'.format(trained_variable['train_time'][i][-1]))
-        
 
-        train_predict_record =  trained_variable["train_predict_record"][i]
-        validation_predict_record =  trained_variable["validation_predict_record"][i]
-        for l in range(0, len(train_predict_record), 100):
-            if i==0:
-                predict = train_predict_record[l]
-            else:
-                predict = train_predict_record[l]+trained_variable["train_predict"][i-1]
-
-            if figure:
-                fig = plt.scatter(data['train_X'][0,:].T, data['train_X'][1,:].T, c=data['train_Y'].T)    
-                plt.colorbar(fig)
-                plt.xlabel('x1')
-                plt.ylabel('x2')
-                plt.title('predict at {} iterations'.format(l*opt_parameter["REC_FRQ"]))     
-                plt.show()  
+        if figure:
+            fig = plt.scatter(data['train_X'][0,:].T, data['train_X'][1,:].T, c=trained_variable["train_predict"][i].T)    
+            plt.colorbar(fig)
+            plt.xlabel('x1')
+            plt.ylabel('x2')
+            plt.title('predict of MGDL at grade {} on training data'.format(i+1))     
+            plt.show()  
 
 
-                fig = plt.scatter(data['train_X'][0,:].T, data['train_X'][1,:].T, c=np.abs(data['train_Y'].T - trained_variable["train_predict"][i].T),vmin=0, vmax=3)
-                plt.colorbar(fig)
-                plt.xlabel('x1')
-                plt.ylabel('x2')
-                plt.title('the error of multi-grade dnn model predict at grade {} on train data'.format(i+1))       
-                plt.show()
+            fig = plt.scatter(data['train_X'][0,:].T, data['train_X'][1,:].T, c=np.abs(data['train_Y'].T - trained_variable["train_predict"][i].T),vmin=0, vmax=3)
+            plt.colorbar(fig)
+            plt.xlabel('x1')
+            plt.ylabel('x2')
+            plt.title('absolute error of MGDL at grade {} on training data'.format(i+1))       
+            plt.show()
 
 
     return 
 
 
+
+
+def test_model(fullfilename):
+    with open(fullfilename, 'rb') as f:
+        trained_variable, nn_parameter, opt_parameter = pickle.load(f)
+        
+    test_rse, predict_test_Y = multigrade_dnn_model_predict(nn_parameter, opt_parameter, trained_variable)
+    
+    print('the test rse for each grade is {}'.format(test_rse))
+    data = trained_variable["data"]
+    
+    
+    fig = plt.scatter(data['test_X'][0,:].T, data['test_X'][1,:].T, c=predict_test_Y.T)    
+    plt.colorbar(fig)
+    plt.xlabel('x1')
+    plt.ylabel('x2')
+    plt.title('predict of MGDL on testing data')     
+    plt.show()  
+
+
+    fig = plt.scatter(data['test_X'][0,:].T, data['test_X'][1,:].T, c=np.abs(data['test_Y'].T - predict_test_Y.T),vmin=0, vmax=3)
+    plt.colorbar(fig)
+    plt.xlabel('x1')
+    plt.ylabel('x2')
+    plt.title('absolute error of MGDL on testing data')       
+    plt.show()
 
 
 
