@@ -1,4 +1,3 @@
-
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,16 +23,9 @@ def results_analysis(fullfilename, figure):
     print(fullfilename)
     print(nn_parameter)
     print(opt_parameter)
-    
-    print(trained_variable["data"]['opt'])
-
 
     num_iter = trained_variable["REC_FRQ_iter"]
     data = trained_variable["data"]
-
-    min_indexs = []
-    min_train_rses = []
-    min_validation_rses = []
 
     train_rse = []
     validation_rse = []
@@ -47,16 +39,12 @@ def results_analysis(fullfilename, figure):
         train_rse.append(trained_variable['train_rse'][i][-1])
         validation_rse.append(trained_variable['validation_rse'][i][-1])
         train_time.append(trained_variable['train_time'][i][-1])
-        
-    test_rse = multigrade_dnn_model_predict(nn_parameter, opt_parameter, trained_variable)
+
 
     print('the train rse for each grade is {}'.format(train_rse))
     print('the validation rse for each grade is {}'.format(validation_rse))
-    print('the test rse for each grade is {}'.format(test_rse))
     print('the train times for each grade is {}'.format(train_time))
     print('the total train times is {}'.format(total_time))
-
-
 
 
 
@@ -70,17 +58,6 @@ def results_analysis(fullfilename, figure):
         plt.ylabel('costs')
         plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
         plt.show()
-
-        plt.plot(num_iter, trained_variable['train_rse'][i], 'b--', label='train rse')
-        plt.plot(num_iter, trained_variable['validation_rse'][i], 'r--', label='validation rse')
-        plt.yscale('log')
-        plt.xlabel('x')
-        plt.ylabel('y')
-        plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
-        plt.title('train and validation rse for grade {}'.format(i+1))   
-        plt.show()
-        
-        print('the train time is {}'.format(trained_variable['train_time'][i][-1]))
         
 
         train_predict_record =  trained_variable["train_predict_record"][i]
@@ -90,12 +67,12 @@ def results_analysis(fullfilename, figure):
                 predict = train_predict_record[l]
             else:
                 predict = train_predict_record[l]+trained_variable["train_predict"][i-1]
-
+                
             if figure:
                 plt.plot(np.squeeze(data['train_X']), np.squeeze(data['train_Y']), label='true label')
                 plt.plot(np.squeeze(data['train_X']), np.squeeze(predict), label='predict label')
-                plt.legend()
-                plt.title('predict at {} iterations'.format(l*opt_parameter["REC_FRQ"]))     
+                plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
+                plt.title('MGDL predict at {} iterations'.format(l*opt_parameter["REC_FRQ"]))     
                 plt.show()  
 
 
@@ -103,6 +80,24 @@ def results_analysis(fullfilename, figure):
 
     return 
 
+
+
+def test_model(fullfilename):
+    with open(fullfilename, 'rb') as f:
+        trained_variable, nn_parameter, opt_parameter = pickle.load(f)
+        
+    test_rse, predict_test_Y = multigrade_dnn_model_predict(nn_parameter, opt_parameter, trained_variable)
+    
+    print('the test rse for each grade is {}'.format(test_rse))
+    data = trained_variable["data"]
+    plt.scatter(np.squeeze(data['test_X']), np.squeeze(data['test_Y']), label='true test label')
+    plt.scatter(np.squeeze(data['test_X']), np.squeeze(predict_test_Y), label='predict test label')
+    plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)    
+    plt.title('MGDL predict on testing data')
+    plt.show()  
+        
+        
+    
 
 def compute_spectra(train_predict_record, pre_train):
     

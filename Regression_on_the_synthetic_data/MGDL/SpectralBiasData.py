@@ -40,12 +40,23 @@ def Spectral_bias_constantORincrease_amplituide(opt):
     
     
     plt.plot(train_X.T, train_Y.T)
+    plt.title('training data')
     plt.show()
 
-    plt.scatter(validation_X.T, validation_Y.T)
-    plt.show()
+#     plt.scatter(validation_X.T, validation_Y.T)
+#     plt.title('validation data')
+#     plt.show()
     
-    plt.scatter(test_X.T, test_Y.T)
+#     plt.scatter(test_X.T, test_Y.T)
+#     plt.title('testing data')
+#     plt.show()
+    
+    
+    frq, fftyt = fft(train_Y)    
+    plt.plot(frq, fftyt)
+    plt.xlim(0, 200)
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude')
     plt.show()
     
     
@@ -94,15 +105,26 @@ def Spectral_bias_vary_amplituide(opt):
     data['test_Y'] = test_Y
     
     plt.plot(train_X.T, train_Y.T)
+    plt.title('training data')
     plt.show()
 
-    plt.scatter(validation_X.T, validation_Y.T)
-    plt.show()
+#     plt.scatter(validation_X.T, validation_Y.T)
+#     plt.title('validation data')
+#     plt.show()
     
-    plt.scatter(test_X.T, test_Y.T)
-    plt.show()
+#     plt.scatter(test_X.T, test_Y.T)
+#     plt.title('testing data')
+#     plt.show()
     
-    fft(train_Y)
+    frq, fftyt = fft(train_Y)
+    
+    plt.plot(frq, fftyt)
+    plt.xlim(0, 200)
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude')
+    plt.show()
+
+    
        
     return data
 

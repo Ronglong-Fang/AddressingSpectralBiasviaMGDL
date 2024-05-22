@@ -1,3 +1,4 @@
+
 import multigrade_dnn_regression as m_dnn
 import numpy as np
 #import matplotlib.pyplot as plt
@@ -42,7 +43,8 @@ def multigrade_dnn_model(nn_parameter, opt_parameter, trained_variable):
         max_learning_rate = opt_parameter["max_learning_rate"]
         min_learning_rate = opt_parameter["min_learning_rate"]
         epochs = opt_parameter["epochs"][i-1]
-        activation = opt_parameter['activation']
+        
+        activation = 'relu'
 
 
         if i==1:
@@ -86,7 +88,7 @@ def multigrade_dnn_model_predict(nn_parameter, opt_parameter, trained_variable):
     for i in range(1,  grade_length + 1):
         layers_dims = nn_parameter["mul_layers_dims"][i-1]
         parameters = trained_variable['mul_parameters'][i-1]
-        activation = opt_parameter['activation']
+        activation = 'relu'
         
         if i==1:
             test_N, test_caches = m_dnn.multigrade_model_forward(data['test_X'], layers_dims, parameters, activation)
@@ -103,7 +105,7 @@ def multigrade_dnn_model_predict(nn_parameter, opt_parameter, trained_variable):
             test_rse.append(rse)
             
             
-    return test_rse
+    return test_rse, predict_test_Y
             
             
             

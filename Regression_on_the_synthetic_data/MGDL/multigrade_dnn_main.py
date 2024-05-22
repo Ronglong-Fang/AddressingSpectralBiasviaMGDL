@@ -1,4 +1,3 @@
-
 #import matplotlib.pyplot as plt
 import time
 import pickle
@@ -36,7 +35,7 @@ def multi_grade_dnn(max_learning_rate, min_learning_rate, mul_layers_dims, mul_e
     opt_parameter["max_learning_rate"] = max_learning_rate     # maximum learning rate
     opt_parameter["min_learning_rate"] = min_learning_rate     # minimum learning rate
     opt_parameter["epochs"] = mul_epochs                       # the training number of epoch in each grade
-    opt_parameter['activation'] = 'relu'                       # use relu activation function
+
     #---------------------------------------------------------------------------------
     
     
