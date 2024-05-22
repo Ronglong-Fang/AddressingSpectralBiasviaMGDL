@@ -24,11 +24,8 @@ def results_analysis(fullfilename):
     print(nn_parameter)
     print(opt_parameter)
     
-    test_predict_Y, _ = singlegrade_model_forward(data['test_X'], nn_parameter['layers_dims'], 
-                                                  history['parameters'][-1], nn_parameter["activation"], 
-                                                  nn_parameter["sinORrelu"])
-    test_rse = rse(data['test_Y'], test_predict_Y)
-    print('train_rse is {}, validation_rses is {}, test_rse is {}'.format(history['train_rses'][-1], history['validation_rses'][-1], test_rse))
+
+    print('train_rse is {}, validation_rses is {}'.format(history['train_rses'][-1], history['validation_rses'][-1]))
     print('the train time is {}'.format(history["time"][-1])) 
 
 
@@ -41,14 +38,6 @@ def results_analysis(fullfilename):
     plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
     plt.show()
     
-    plt.plot(history['train_rses'], 'b--', label='train rse')
-    plt.plot(history['validation_rses'], 'r--', label='validation rse')
-    plt.yscale('log')
-    plt.xlabel('train iteration')
-    plt.ylabel('rse')
-    plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
-    plt.legend()
-    plt.show()
 
 
     for i in range(0, len(history["REC_FRQ_iter"]), 100):
@@ -57,10 +46,35 @@ def results_analysis(fullfilename):
         plt.plot(np.squeeze(data['train_X']), np.squeeze(data['train_Y']), label='true label')
         plt.plot(np.squeeze(data['train_X']), np.squeeze(history['train_predict_record'][i]), label='predict label')
         plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
+        plt.title('SGDL predict at {} iteration'.format(i*opt_parameter["REC_FRQ"]))
         plt.show()
         
     return
 
+
+def test_model(fullfilename):
+    with open(fullfilename, 'rb') as f:
+        history, nn_parameter, opt_parameter = pickle.load(f)
+
+    data = history["data"]       
+
+    
+    test_predict_Y, _ = singlegrade_model_forward(data['test_X'], nn_parameter['layers_dims'], 
+                                                  history['parameters'][-1], nn_parameter["activation"], 
+                                                  nn_parameter["sinORrelu"])
+    test_rse = rse(data['test_Y'], test_predict_Y)
+    
+    print('the test rse for each grade is {}'.format(test_rse))
+                   
+    data = history["data"]
+    plt.scatter(np.squeeze(data['test_X']), np.squeeze(data['test_Y']), label='true test label')
+    plt.scatter(np.squeeze(data['test_X']), np.squeeze(test_predict_Y), label='predict test label')
+    plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)  
+    plt.title('SGDL predict on testing data')
+    plt.show() 
+
+                   
+                   
 
 def compute_spectra(history):
     train_predict_record =  history["train_predict_record"]
