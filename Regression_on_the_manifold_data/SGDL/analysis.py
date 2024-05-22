@@ -1,4 +1,3 @@
-
 import sys
 sys.path.append('/home/rfang002/envs/default-tensorflow-cpu-2.6.0/lib/python3.10/site-packages')
 import seaborn as sns
@@ -95,34 +94,13 @@ def results_analysis(fullfilename):
 
     data = history["data"]       
     
-
-
-    # print(data["opt"])
-    # print(data["train_X"].shape)
-    # print(data["test_X"].shape)
-    
     print("###########################################################################")
     print(fullfilename)
     print(nn_parameter)
     print(opt_parameter)
+    print('train_rse is {}, validation_rses is {}'.format(history['train_rses'][-1], history['validation_rses'][-1]))
     
-    test_predict_Y, _ = singlegrade_model_forward(data['test_X'], nn_parameter['layers_dims'], history['parameters'][-1], nn_parameter["activation"], nn_parameter["sinORrelu"])
-    test_rse = rse(data['test_Y'], test_predict_Y)
-
-    
-
-
-    print('train_rse is {}, validation_rses is {}, test_rse is {}'.format(history['train_rses'][-1], history['validation_rses'][-1], test_rse))
-
-    
-
-
-    
-
     print('the train time is {}'.format(history["time"][-1])) 
-
-
-
     plt.plot(history["REC_FRQ_iter"], np.array(history["train_costs"]), label="train cost")
     plt.plot(history["REC_FRQ_iter"], np.array(history["validation_costs"]), label="validation cost")
     plt.xlabel('epoch')
@@ -131,24 +109,59 @@ def results_analysis(fullfilename):
     plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
     plt.show()
     
-    plt.plot(history['train_rses'], 'b--', label='train rse')
-    plt.plot(history['validation_rses'], 'r--', label='validation rse')
-    plt.yscale('log')
-    plt.xlabel('train iteration')
-    plt.ylabel('rse')
-    plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
-    plt.legend()
+    
+    
+    train_predict_Y = history["train_predict_record"][-1]
+    
+    fig = plt.scatter(data['train_X'][0,:].T, data['train_X'][1,:].T, c=train_predict_Y.T)    
+    plt.colorbar(fig)
+    plt.xlabel('x1')
+    plt.ylabel('x2')
+    plt.title('predict of SGDL at training data')     
+    plt.show()  
+
+
+    fig = plt.scatter(data['train_X'][0,:].T, data['train_X'][1,:].T, c=np.abs(data['train_Y'].T - train_predict_Y.T),vmin=0, vmax=3)
+    plt.colorbar(fig)
+    plt.xlabel('x1')
+    plt.ylabel('x2')
+    plt.title('absolute error of SGDL on training data')       
     plt.show()
-
-
-    for i in range(0, len(history["REC_FRQ_iter"]), 100):
-        print('at epochs {}, train rse {}, validation rse {}'.format(history["REC_FRQ_iter"][i], history['train_rses'][i], history['validation_rses'][i]))
-        print('train time at epochs {} is {}'.format(history["REC_FRQ_iter"][i], history["time"][i]))
-
-
-     
         
     return
+
+
+
+def test_model(fullfilename):
+    with open(fullfilename, 'rb') as f:
+        history, nn_parameter, opt_parameter = pickle.load(f)
+
+    data = history["data"]       
+
+    
+    test_predict_Y, _ = singlegrade_model_forward(data['test_X'], nn_parameter['layers_dims'], 
+                                                  history['parameters'][-1], nn_parameter["activation"], 
+                                                  nn_parameter["sinORrelu"])
+    test_rse = rse(data['test_Y'], test_predict_Y)
+    
+    print('the test rse for each grade is {}'.format(test_rse))
+                   
+    data = history["data"]
+    
+    fig = plt.scatter(data['test_X'][0,:].T, data['test_X'][1,:].T, c=test_predict_Y.T)    
+    plt.colorbar(fig)
+    plt.xlabel('x1')
+    plt.ylabel('x2')
+    plt.title('predict of SGDL on testing data')     
+    plt.show()  
+
+
+    fig = plt.scatter(data['test_X'][0,:].T, data['test_X'][1,:].T, c=np.abs(data['test_Y'].T - test_predict_Y.T),vmin=0, vmax=3)
+    plt.colorbar(fig)
+    plt.xlabel('x1')
+    plt.ylabel('x2')
+    plt.title('absolute error of SGDL on testing data')       
+    plt.show()
 
 
 def compute_spectra(history):

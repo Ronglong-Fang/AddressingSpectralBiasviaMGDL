@@ -56,19 +56,24 @@ def Manifolds_regression_increase_amplituide(opt):
     data['test_X'] = test_X
     data['test_Y'] = test_Y
     
-    plt.plot(train_X[0,:], train_X[1,:])
-    plt.show()
-
     plt.plot(trX.T, train_Y.T)
+    plt.title('$\lambda(x)$')
     plt.show()
 
-    plt.scatter(vX.T, validation_Y.T)
+#     plt.scatter(vX.T, validation_Y.T)
+#     plt.show()
+    
+#     plt.scatter(teX.T, test_Y.T)
+#     plt.show()
+    
+    frq, fftyt = fft(train_Y)    
+    plt.plot(frq, fftyt)
+    plt.xlim(0, 400)
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude')
     plt.show()
     
-    plt.scatter(teX.T, test_Y.T)
-    plt.show()
     
-    fft(train_Y)
     return data
 
 def Manifolds_regression_vary_amplituide(opt):
@@ -126,16 +131,21 @@ def Manifolds_regression_vary_amplituide(opt):
     data['test_Y'] = test_Y
     
     plt.plot(trX.T, train_Y.T)
+    plt.title('$\lambda(x)$')
     plt.show()
 
-    plt.scatter(vX.T, validation_Y.T)
+#     plt.scatter(vX.T, validation_Y.T)
+#     plt.show()
+    
+#     plt.scatter(teX.T, test_Y.T)
+#     plt.show()
+    
+    frq, fftyt = fft(train_Y)    
+    plt.plot(frq, fftyt)
+    plt.xlim(0, 400)
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude')
     plt.show()
-    
-    plt.scatter(teX.T, test_Y.T)
-    plt.show()
-    
-    fft(train_Y)
-    
  
     
     return data
@@ -151,11 +161,6 @@ def fft(yt):
 
     FFTYT = FFTYT[range(n//2)]
     fftyt = abs(FFTYT)
-
-
-    plt.plot(frq, fftyt)
-    plt.xlim(0, 400)
-    plt.show()
 
     return frq, fftyt
 

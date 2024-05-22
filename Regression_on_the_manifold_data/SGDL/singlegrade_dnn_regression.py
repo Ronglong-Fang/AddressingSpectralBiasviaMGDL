@@ -522,77 +522,6 @@ def update_parameters_with_adam(parameters, grads, v, s, layers_dims, t, learnin
 
     return parameters, v, s
 #-----------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-def spectral_norm_weight(parameters, layers_dims):
-    """
-    
-
-    Parameters
-    ----------
-    parameters :         dictionary containing parameters
-                         parameters["W" + str(l)] = Wl
-                         parameters["b" + str(l)] = bl       
-                         
-    layers_dims :        list 
-                         containing the dimensions of each layer in network
-
-    Returns
-    -------
-    spectral_norm_W :    list
-                         spectral norm for weight matrix for each layer
-
-    """
-    
-    
-    L = len(layers_dims)            # number of layers in the network  
-    
-        
-    spectral_norm_W = []  
-        
-    #{W_i, b_i}_{i=1}^{n1}
-    for l in range(1, L):
-        W = parameters["W"+str(l)]
-        spectral_norm_W.append(np.linalg.norm(W, ord = 2))   #2-norm (largest sing. value)
-        
-    return spectral_norm_W
-
-
-def fro_norm_weight_gradient(grads, layers_dims):
-    """
-    
-
-    Parameters
-    ----------
-    grads :              dictionary containing gradient
-                         grads["dW" + str(l)]
-                         grads["db" + str(l)]      
-                         
-    layers_dims :        list 
-                         containing the dimensions of each layer in network
-
-    Returns
-    -------
-    spectral_norm_dW :    list
-                          fro norm of the gradient of weight matrix for each layer
-
-    """
-    
-    
-    L = len(layers_dims)            # number of layers in the network  
-    
-        
-    spectral_norm_dW = []  
-        
-    #{W_i, b_i}_{i=1}^{n1}
-    for l in range(1, L):
-        dW = grads["dW"+str(l)]
-        spectral_norm_dW.append(np.linalg.norm(dW, ord = 'fro'))   #2-norm (largest sing. value)
-        
-    return spectral_norm_dW
-        
     
 
 
@@ -670,8 +599,6 @@ def singlegrade_dnn_model_grade(data, nn_parameter, opt_parameter):
     history["validation_costs"] = []
     history["train_rses"] = []
     history["validation_rses"] = []
-    history["spectral_norm_W"] = []
-    history["fro_norm_dW"] = []
     history["REC_FRQ_iter"] = []
     history["time"] = []
     history["parameters"] = []
@@ -717,8 +644,6 @@ def singlegrade_dnn_model_grade(data, nn_parameter, opt_parameter):
             history["validation_costs"].append(squareloss_cost_L2reg(validation_predict, data["validation_Y"], layers_dims, parameters, lambd_W))
             history["train_predict_record"].append(train_predict)
             history["validation_predict_record"].append(validation_predict)
-            history["spectral_norm_W"].append(spectral_norm_weight(parameters, layers_dims))
-            history["parameters"].append(parameters)
             history["REC_FRQ_iter"].append(i)
 
 

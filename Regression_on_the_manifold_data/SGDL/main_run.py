@@ -7,8 +7,8 @@ SGD = True                                                        # if use stoch
                                                                   # if use Full grade in Adam, the SGD is 'False' and set mini_batch size to 'False'
 mini_batch_size = 512                                             # minibatch size
 layers_dims = [2, 256, 256, 256, 256, 256, 256, 256, 256, 1]      # this is the structure for SGDL
-epochs = 30000                                                    # the number of training epoch 
-#epochs = 30
+#epochs = 30000                                                    # the number of training epoch 
+epochs = 300
 
 
 MAX_learning_rate = [1e-3]                                       # the maximum learning rate, denote as t_max in the paper
