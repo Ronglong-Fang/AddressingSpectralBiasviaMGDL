@@ -8,7 +8,7 @@ mini_batch = False                                     # minibatch size
 ####################################structure for setting: constant, decrease, vary################################
 mul_layers_dims = [[1, 256, 256, 1], [256, 256, 256, 1], [256, 256, 256, 1], [256, 256, 256, 1]]                            
 mul_epochs = [30000, 30000, 30000, 30000]              # the number training epoch in each grade
-lambda_W = [0, 0, 0, 0]                                # the L2 regularization  for the weight matrix. 
+lambd_W = [0, 0, 0, 0]                                # the L2 regularization  for the weight matrix. 
                                                        # In the paper, we did not apply L2 regularization, 
                                                        # thereby set to 0 for this parameter
 ####################################################################################################################
@@ -16,7 +16,7 @@ lambda_W = [0, 0, 0, 0]                                # the L2 regularization  
 ####################################structure for setting: increase##################################################
 #mul_layers_dims = [[1, 256, 256, 1], [256, 256, 256, 1], [256, 256, 256, 1], [256, 256, 256, 1]. [256, 256, 256, 1]]                            
 #mul_epochs = [30000, 30000, 30000, 30000, 30000]              
-#lambda_W = [0, 0, 0, 0, 0]  
+#lambd_W = [0, 0, 0, 0, 0]  
 ####################################################################################################################
 
 MAX_learning_rate = [1e-3]                           # the maximum learning rate, denote as t_max in the paper
