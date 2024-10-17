@@ -11,14 +11,12 @@ import numpy as np
 
 #------------------------------------nn_parameter--------------------------------
 
-def multi_grade_dnn(max_learning_rate, min_learning_rate, mul_layers_dims, mul_epochs, SGD, mini_batch, freq, amp):
+def multi_grade_dnn(max_learning_rate, min_learning_rate, mul_layers_dims, lambd_W, mul_epochs, SGD, mini_batch, freq, amp):
                                
     #---------------------------neural network parameter----------------------------
     nn_parameter = {}
     nn_parameter["mul_layers_dims"] = mul_layers_dims         # neural network strucure
-    nn_parameter["lambd_W"] = [0, 0, 0]                       # the L2 regularization  for the weight matrix. 
-                                                              # In the paper, we did not apply L2 regularization, 
-                                                              # thereby set to 0 for this parameter
+    nn_parameter["lambd_W"] = lambd_W                         # the L2 regularization  for the weight matrix. 
 
 
     #------------------------optimization parameter----------------------------------
