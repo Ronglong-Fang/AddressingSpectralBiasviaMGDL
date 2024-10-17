@@ -8,7 +8,7 @@ mini_batch = False                                     # minibatch size
 ####################################structure for setting: constant, decrease, vary################################
 mul_layers_dims = [[1, 256, 256, 1], [256, 256, 256, 1], [256, 256, 256, 1], [256, 256, 256, 1]]                            
 mul_epochs = [30000, 30000, 30000, 30000]              # the number training epoch in each grade
-lambd_W = [0, 0, 0, 0]                                # the L2 regularization  for the weight matrix. 
+lambd_W = [0, 0, 0, 0]                                 # the L2 regularization  for the weight matrix. 
                                                        # In the paper, we did not apply L2 regularization, 
                                                        # thereby set to 0 for this parameter
 ####################################################################################################################
