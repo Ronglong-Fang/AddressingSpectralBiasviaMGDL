@@ -94,8 +94,8 @@ def train_model(grade, input_shape_x, train_data, test_data, opt):
     train_features = snn_feature_pred(get_params(opt_state), train_data[0])
     test_features = snn_feature_pred(get_params(opt_state), test_data[0])
 
-    train_no_sigmoid = snn_no_identity_pred(get_params(opt_state), train_data[0])
-    test_no_sigmoid = snn_no_identity_pred(get_params(opt_state), test_data[0])
+    train_no_identity = snn_no_identity_pred(get_params(opt_state), train_data[0])
+    test_no_identity = snn_no_identity_pred(get_params(opt_state), test_data[0])
 
     
     pred_imgs = model_pred(get_params(opt_state), test_data[0], test_data[1])
@@ -110,8 +110,8 @@ def train_model(grade, input_shape_x, train_data, test_data, opt):
         'xs': xs,
         'train_features': train_features,
         'test_features': test_features,
-        'train_no_sigmoid': train_no_sigmoid,
-        'test_no_sigmoid': test_no_sigmoid,
+        'train_no_identity': train_no_identity,
+        'test_no_identity': test_no_identity,
         'loss': loss
     }
 
@@ -138,11 +138,11 @@ def MGDLmodel(opt):
         e_time = time.time()
         train_features = history['train_features']
         test_features = history['test_features']
-        train_no_sigmoid = history['train_no_sigmoid']
-        test_no_sigmoid = history['test_no_sigmoid']
+        train_no_identity = history['train_no_identity']
+        test_no_identity = history['test_no_identity']
 
-        train_accumulations += current_epsilon * train_no_sigmoid
-        test_accumulations += current_epsilon * test_no_sigmoid
+        train_accumulations += current_epsilon * train_no_identity
+        test_accumulations += current_epsilon * test_no_identity
 
 
         if opt.epsilon:
