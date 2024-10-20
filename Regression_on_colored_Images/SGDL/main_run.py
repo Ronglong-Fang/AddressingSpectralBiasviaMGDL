@@ -17,7 +17,6 @@ Learning_rate = [5e-3]
 # Learning_rate = [1e-3]
 # ##################################################################
 
-Learning_rate = [1e-2, 5e-3, 1e-3, 5e-4, 1e-4]
 Num_layers = [12]
 
 for learning_rate in Learning_rate:
