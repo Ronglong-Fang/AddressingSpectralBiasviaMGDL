@@ -1,0 +1,14 @@
+#!/bin/bash -l
+
+#SBATCH -J SGDLCoordinate          # job name
+#SBATCH -o job.o%j            # output and error file name (%j expands to jobID)
+#SBATCH -c 8
+#SBATCH -p high-gpu-mem	
+#SBATCH --gres gpu:1
+
+echo $HOSTNAME
+pwd
+
+module load tensorflow-gpu/2.16
+
+crun -p ~/envs/mgdl/ python3 main_run.py
