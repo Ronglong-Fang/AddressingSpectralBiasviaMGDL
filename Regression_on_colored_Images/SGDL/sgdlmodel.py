@@ -106,7 +106,9 @@ def train_model(opt, train_data, test_data):
     
     print(f"train time: {e_time - s_time},  train psnr: {train_psnrs[-1]}, test psnr: {test_psnrs[-1]}\n")
 
-    picklename = 'results/SGDL_numlayer%d_learningrate%.4e_trainpsnr%.4e_testpsnr%.4e.pickle' % (opt.num_layers, opt.learning_rate, train_psnrs[-1], test_psnrs[-1])
+    picklename = 'results/SGDL_img%s_numlayer%d_learningrate%.4e_trainpsnr%.4e_testpsnr%.4e.pickle' % (
+        opt.image, opt.num_layers, opt.learning_rate, train_psnrs[-1], test_psnrs[-1]
+    )
 
     
     with open(picklename, 'wb') as f:
