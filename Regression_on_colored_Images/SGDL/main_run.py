@@ -30,6 +30,6 @@ for learning_rate in Learning_rate:
         opt.interval = 25
         opt.image = image
 
-        test_data, train_data = data_setup()
+        test_data, train_data = data_setup(opt)
         
         history_dict = train_model(opt, train_data, test_data)
