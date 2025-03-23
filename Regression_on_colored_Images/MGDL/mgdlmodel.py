@@ -152,7 +152,7 @@ def MGDLmodel(opt):
 
 
         if opt.epsilon:
-            current_epsilon = np.sqrt(2*history['loss'])
+            current_epsilon = 1
         else:
             current_epsilon = 1
         
